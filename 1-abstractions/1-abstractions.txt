@@ -1,0 +1,66 @@
+Square roots by Newton's method:
+
+	Find an excellent approximations of the square root of a value 'x' by guessing a value 'y' and averaging this value with x/y and feeding this new value into the y variable of the next guess. The process ends when the guess is within a certain proximity to the real value of x (i.e. square guess, is it within 0.001 of x?). E.g.
+	<guess y>		<quotient>		<average>
+	1				2/1 = 2			(2+1)/2 = 1.5
+	1.5				2/1.5 = 1.333	(1.3333 + 1.5)/ 2 = 1.4167
+	1.4167			2/1.4167=1.4118	(1.4167+1.4118)/2 = 1.4142
+
+	See root.scm
+	
+Exercise 1.7: 
+	The relative comparitor of 0.001 (`thresh`) is too large for further iterations of smaller and smaller numbers, this means that guesses involving small numbers will be incorrect by a large margin. Additionally, large numbers can end up not being fully computed (endless loop) due to (as the book states) the fixed precision of artihemtical operations - using 0.001 as a threshold is causing this as the subtraction of two large values is not going to have the precision to notify us that we're withing x decimal places of correctness!
+
+	Instead of using an arbitrary fixed point, we're going to compare the last best-guess versus the new guess - if they are the same, we're returning.
+
+Exercise 1.8:
+	Root procedures used but improve uses x/y^2 + 2y / 3.
+	This should probably not duplicate an entire code pathway (i.e. cube-root -> cube-root-valid -> cube-root-improve. Rather an extra argument should be used to discern the type of root being performed. 
+	e.g. 
+	( define ( root x y z ) 
+		...
+	)	 
+	where z is the root
+
+See: fact.scm for factorial implementation using block structure.
+
+Exercise 1.9:
+	( plus 4 5 ) => root.
+	( plus 3 5 ) 
+	( plus 2 5 )
+	( plus 1 5 )
+	( plus 0 5 ) => top.
+	( inc 5 )
+	( inc 6 )
+	( inc 7 )
+	( inc 8 ) => result = 9. 
+	Recursive (process).
+	
+	( plus 4 5 ) => root.
+	( plus 3 6 )
+	( plus 2 7 )
+	( plus 1 8 )
+	( plus 0 9 ) => top, result = 9.
+	Iterative (process).
+
+Exercise 1.10:
+	1024 
+	65536 
+	65536
+	
+	2n 
+	0, if n = 0, else 2^n
+	0, if n = 0, 2^n if n = 1, 2(2^n) for n > 1
+	5(n(n))		
+
+The same exponential increase in complexity that occurs with the fibonacci sequence also occurs in a problem called 'change counting' (or coin counting) in which the goal is to find the number of ways to change amount *a* using *n* denomination of coins assuming the number of available coins is infinite. This is quite confusing at first due to how huge the recursion tree gets even at small amounts. The problem can be solved more efficiently using DP (dynamic programming) and a vector as a 1-dimensional table, however, this hides how the problem is actually solved. So, both methods are provided in coin.scm.
+
+(Times for (coin-change 275 6) using recursion (brute force) and DP:
+real	0m20.921s
+user	0m20.759s
+sys	0m0.090s
+vs.
+real	0m0.040s
+user	0m0.027s
+sys	0m0.013s)
+					       
